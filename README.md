@@ -1,47 +1,26 @@
 # terraform-volcenginecc-iam-role-policy
 
-Terraform Module scaffold for the VolcengineCC provider.
-
-> Status: Scaffold only. The Terraform implementation for this repository is
-> not available yet, and this repository is not ready for production use.
-
 ## Overview
 
-This repository reserves the module name `volcengine/iam-role-policy/volcenginecc`.
-
-The module is intended to provide a reusable Terraform abstraction for the
-`iam-role-policy` scenario using the `volcengine/volcenginecc` provider.
-
-Current scope:
-
-- Repository and module scaffold only.
-- No Terraform resources or data sources are currently managed.
-- No production-readiness or real-cloud validation claim is made.
+Terraform module for managing Volcengine IAM ROLE POLICY resources with the `volcenginecc` provider. The caller owns provider authentication, region configuration, and external resources passed by ID.
 
 ## Usage
 
-The module implementation is not available yet. A runnable configuration will
-be added together with the first implementation release.
+```hcl
+module "iam_role_policy" {
+  source  = "terraform-volcenginecc-modules/iam-role-policy/volcenginecc"
+  version = "~> 1.0"
 
-Provider authentication and region configuration must be supplied by the
-caller. Do not commit credentials, access keys, secrets, Terraform state, or
-plan files.
-
-## Examples
-
-Examples will be added when the module implementation is available.
-
-Planned examples:
-
-- `examples/basic`
-- `examples/complete`
+  # Set the required module inputs for your environment.
+}
+```
 
 ## Requirements
 
 | Name | Version |
 |---|---|
-| Terraform | To be defined with the first implementation |
-| `volcengine/volcenginecc` | To be defined with the first implementation |
+| Terraform | `>= 1.5.7` |
+| OpenTofu | `>= 1.11.8` |
 
 ## Providers
 
@@ -51,38 +30,44 @@ Planned examples:
 
 ## Resources
 
-No resources or data sources are currently managed.
-
-The resource inventory will be documented before the first release.
+| Name | Description |
+|---|---|
+| `volcenginecc_iam_policy` | Module-defined volcenginecc_iam_policy. |
+| `volcenginecc_iam_role` | Module-defined volcenginecc_iam_role. |
 
 ## Inputs
 
-No input variables are currently defined.
-
-All inputs will document their type, default value, required status,
-validation, ownership, and replacement behavior when implemented.
+| Name | Description |
+|---|---|
+| `role_name` | Module-defined role_name. |
+| `display_name` | Module-defined display_name. |
+| `description` | Module-defined description. |
+| `trust_policy_document` | Module-defined trust_policy_document. |
+| `max_session_duration` | Module-defined max_session_duration. |
+| `is_service_linked_role` | Module-defined is_service_linked_role. |
+| `service_name` | Module-defined service_name. |
+| `custom_policies` | Module-defined custom_policies. |
+| `managed_policies` | Module-defined managed_policies. |
+| `tags` | Module-defined tags. |
 
 ## Outputs
 
-No outputs are currently defined.
+| Name | Description |
+|---|---|
+| `role_id` | Module-defined role_id. |
+| `role_name` | Module-defined role_name. |
+| `role_trn` | Module-defined role_trn. |
+| `custom_policy_trns` | Module-defined custom_policy_trns. |
+| `custom_policy_ids` | Module-defined custom_policy_ids. |
+| `attached_policies` | Module-defined attached_policies. |
 
-Outputs will document their exact semantics when implemented.
+## Examples
+
+- `basic`: independently runnable basic configuration.
+- `complete`: independently runnable complete configuration.
 
 ## Notes
 
-- This repository is currently a scaffold and is not a publishable functional
-  module.
-- Real-cloud validation has not been performed.
-- Provider limitations and unsupported scenarios will be documented before
-  release.
-- Resource ownership, import behavior, replacement behavior, cost risks, and
-  cleanup procedures must be documented before the first release.
-
-## Security
-
-Please report security issues according to the [Security Policy](SECURITY.md).
-Do not disclose security vulnerabilities through public issues.
-
-## License
-
-This project is licensed under the MIT License. See [LICENSE](LICENSE).
+- Configure credentials using supported provider mechanisms; do not put access keys in module files.
+- Review replacement behavior and provider constraints before applying changes.
+- Run `terraform plan` after apply and confirm that the second plan has no changes.
